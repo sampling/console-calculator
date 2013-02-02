@@ -9,23 +9,25 @@
 class CalculatorTest extends PHPUnit_Framework_TestCase
 {
     protected $calculator;
-	
-	/**
+    
+    /**
+     * @requires PHP 5
      * @expectedException InvalidArgumentException
      */
     public function testCreateCalculatorWithoutFilename() {
-	    $this->calculator = new Calculator();
+        $this->calculator = new Calculator();
     }
 
-	/**
+    /**
      * @expectedException InvalidArgumentException
      */
     public function testCreateCalculatorWithIncorrectFilename() {
-	    $this->calculator = new Calculator('xyz');
+        $this->calculator = new Calculator('xyz');
     }
-	
+    
     public function testCreateCalculatorWithCorrectFilename() {
-	    $this->calculator = new Calculator('fixtures/inputEmpty.txt');
+        $this->calculator = new Calculator('fixtures/inputEmpty.txt');
+        $this->assertInstanceOf('Calculator', $this->calculator);
     }
 
 }
