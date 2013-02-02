@@ -20,8 +20,9 @@
 			foreach ($di as $file) {
 	 
 				if ($file->isDir() && !$file->isLink() && !$file->isDot()) {
+                    print $file->getPathname() . ' ';
 					// recurse into directories other than a few special ones
-					self::registerDirectory($file->getPathname());
+					self::registerDirectory(array($file->getPathname()));
 				} elseif (substr($file->getFilename(), -4) === '.php') {
 					// save the class name / path of a .php file found
 					$className = substr($file->getFilename(), 0, -4);
