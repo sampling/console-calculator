@@ -1,0 +1,10 @@
+<phpunit  bootstrap="../conf/Bootstrap.php">
+  <testsuites>
+    <testsuite name="Models tests">
+      <directory>models</directory>
+    </testsuite>
+	<testsuite name="CLI Tests">
+      <directory>cli</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>

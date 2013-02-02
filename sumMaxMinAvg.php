@@ -10,6 +10,6 @@
  *
  */
  
- // TODO: everything
+ require_once 'conf/Bootstrap.php';
  
 ?>
