@@ -45,6 +45,14 @@ class OperationsFileTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('OperationsFile', $this->operationsFile);
         $this->assertEquals(3, $operationsProcessed);
     }
+    
+    public function testProcessOperationsFileIncorrectCharacters() {
+        $this->operationsFile = new OperationsFile('fixtures/inputIncorrectCharacters.txt');
+        $operationsProcessed = $this->operationsFile->processInput();
+        
+        $this->assertInstanceOf('OperationsFile', $this->operationsFile);
+        $this->assertEquals(0, $operationsProcessed);
+    }
 }
 
 ?>

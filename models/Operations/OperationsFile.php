@@ -43,11 +43,15 @@ class OperationsFile extends OperationsInput
     public function getNextOperationFromInput() 
     {
         if (!feof($this->fileHandle)) {
-            $line = fgets($this->fileHandle, 102400);
-            return $line;
-        } else {
-            return false;
+            $line = '';
+            // check is this a full line
+            while (strrpos($line, PHP_EOL) === false && !feof($this->fileHandle)) {
+                $line .= fgets($this->fileHandle, 102400);
+            }
+            
+            return trim($line);
         }
+        return false;
     }    
 
 } 

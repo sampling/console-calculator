@@ -11,6 +11,8 @@ abstract class OperationsInput
     private $inputType;
     
     private $input;
+            
+    private $supportedOperations = array('SUM', 'MIN', 'MAX', 'AVERAGE');
     
     private $operationsCounter;
 
@@ -50,15 +52,29 @@ abstract class OperationsInput
     public function processInput() 
     {
         while (($operation = $this->getNextOperationFromInput()) !== false) {
-            $this->processOperation($operation);
-            $this->operationsCounter++;
+            if ($this->processOperation($operation)) {
+                $this->operationsCounter++;
+            }
         }
         return $this->operationsCounter;
     }
 
     public function processOperation($operation) 
     {
+        $operationNameEnd = strpos($operation, ':');
+        if ($operationNameEnd !== false) {
+            $operationName = substr($operation, 0, $operationNameEnd);
+            if (in_array($operationName, $this->supportedOperations)) {
+                $operationData = array_filter(explode(',', substr($operation, $operationNameEnd + 1)), 'is_numeric');
 
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public function validateOperation($operation) {
+       return !preg_match('/[^A-Z0-9,:\\s]/', $operation);
     }
     
     abstract public function validateInput($input);
