@@ -8,64 +8,46 @@
  */
 class OperationsFile extends OperationsInput
 {
+    private $fileHandle;
 
     public function __construct($fileName = null) {
         $this->setInputType('file');
-        self::validateFileName($fileName);
         parent::__construct($fileName);
+        
+        $this->setFileHandle($fileName);
+    }
+    
+    
+    public function setFileHandle($fileName) 
+    {
+        $this->fileHandle = fopen($fileName, 'r');
     }
 
-    public static function validateFileName($fileName) 
-    {
-        if (is_string($fileName) && is_file($fileName)) {
-            return true;
-        } else {
-            throw new InvalidArgumentException(
-                'Incorrect input file name provided!');
-        }
-    }
-    
-    public function setInput($fileName) 
-    {
-        $this->input = file($fileName);
-    }
-    
-    
-        
     /*
-     * Validates file content.
+     * Basic input file name validation, is file readable?.
      *
-     * @param string file content
-     * @returns bool 
+     * @param string file name
+     * @return bool 
+     * @throw InvalidArgumentException
      */
-    public function validateInput() 
+    public function validateInput($fileName) 
     {
-        if (is_array($this->input)) {
-            foreach ($this->input as $line) {
-                $this->validateLine($line);
-            }
-        } else {
-            throw new InvalidArgumentException(
-                'Provided input file is not valid (wrong format)!');
-        }
-    }
-    
-     /*
-     * Validates operation line
-     *
-     * @param string operatuon file line; expected format:
-     *       <operation|SUM,MIN,MAX,AVG> <int>, <int>, (<int>...)
-     *
-     * @returns bool 
-     */
-    public function validateLine($operationLine) 
-    {
-        if (is_string($operationLine)) {
+        if (is_string($fileName) && is_file($fileName) && is_readable($fileName)) {
             return true;
         } else {
             throw new InvalidArgumentException(
-                'Provided input file is not valid (wrong format)!');
+                'Incorrect input file name provided, file can not be read: ' . $fileName);
         }
     }
+
+    public function getNextOperationFromInput() 
+    {
+        if (!feof($this->fileHandle)) {
+            $line = fgets($this->fileHandle, 102400);
+            return $line;
+        } else {
+            return false;
+        }
+    }    
 
 } 

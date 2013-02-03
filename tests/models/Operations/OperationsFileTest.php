@@ -30,6 +30,21 @@ class OperationsFileTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('OperationsFile', $this->operationsFile);
     }
 
+    public function testProcessEmptyOperationsFile() {
+        $this->operationsFile = new OperationsFile('fixtures/inputEmpty.txt');
+        $operationsProcessed = $this->operationsFile->processInput();
+        
+        $this->assertInstanceOf('OperationsFile', $this->operationsFile);
+        $this->assertEquals(0, $operationsProcessed);
+    }
+    
+    public function testProcessCorrectOperationsFile() {
+        $this->operationsFile = new OperationsFile('fixtures/inputSimple.txt');
+        $operationsProcessed = $this->operationsFile->processInput();
+        
+        $this->assertInstanceOf('OperationsFile', $this->operationsFile);
+        $this->assertEquals(3, $operationsProcessed);
+    }
 }
 
 ?>

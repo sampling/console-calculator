@@ -23,9 +23,8 @@ class Calculator
     
     public function setFileName($fileName) 
     {
-        if (OperationsFile::validateFileName($fileName)) {
-            return $this->fileName;
-        }
+        $this->fileName = $fileName;
+        
     }        
 
     public function getFileName() 

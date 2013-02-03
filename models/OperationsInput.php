@@ -11,22 +11,58 @@ abstract class OperationsInput
     private $inputType;
     
     private $input;
+    
+    private $operationsCounter;
 
-    public function __construct($input) {
+    public function __construct($input) 
+    {
+        $this->validateInput($input);
         $this->setInput($input);
-        $this->validateInput();
+        $this->operationsCounter = 0;
     }
     
-    public function setInputType($type) {
+    public function setInputType($type) 
+    {
         $this->inputType = $type;
     }    
 
-    public function getInputType() {
+    public function getInputType() 
+    {
         return $this->inputType;
     }        
      
-    abstract public function setInput($input);
+    public function setInput($input) 
+    {
+        $this->input = $input;
+    }
+
+    public function getInput() 
+    {
+        return $this->input;
+    }
     
-    abstract public function validateInput();
+    /*
+     * Process input, operation by operation
+     *
+     * @return int number of succesfully processed operations
+     * @throws      
+     */
+    public function processInput() 
+    {
+        while (($operation = $this->getNextOperationFromInput()) !== false) {
+            $this->processOperation($operation);
+            $this->operationsCounter++;
+        }
+        return $this->operationsCounter;
+    }
+
+    public function processOperation($operation) 
+    {
+
+    }
+    
+    abstract public function validateInput($input);
+    
+    abstract public function getNextOperationFromInput();
 
 }
