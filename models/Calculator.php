@@ -87,4 +87,3 @@ class Calculator
         return array_sum($values)/count($values);
     }
 }
-?>
