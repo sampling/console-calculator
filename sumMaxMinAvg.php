@@ -12,4 +12,8 @@
  
  require_once 'conf/Bootstrap.php';
  
+ $arguments = $_SERVER['argv'];
+ 
+ $calculator = new Calculator($arguments[1], array('SUM', 'MIN', 'MAX', 'AVERAGE'));
+ $calculator->processInput();
 ?>

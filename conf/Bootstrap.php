@@ -8,9 +8,9 @@
  
  include_once('AutoLoader.php');
  
- $dirs = array('../models',
-               '../views',
-			   '../cli');
+ $dirs = array(dirname(__FILE__) . '/../models',
+               dirname(__FILE__) . '/../views',
+			   dirname(__FILE__) . '/../cli');
 			   
  // Register the directories
  AutoLoader::registerDirectory($dirs);

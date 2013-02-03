@@ -20,7 +20,6 @@
 			foreach ($di as $file) {
 	 
 				if ($file->isDir() && !$file->isLink() && !$file->isDot()) {
-                    print $file->getPathname() . ' ';
 					// recurse into directories other than a few special ones
 					self::registerDirectory(array($file->getPathname()));
 				} elseif (substr($file->getFilename(), -4) === '.php') {
