@@ -24,11 +24,7 @@ class Calculator
         $this->operationsFile = new OperationsInputFile($fileName);
         $this->setSupportedOperations($operations);
     }
-    
-    public function processInput() {    
-        $this->operationsFile->parseInput();
-    }
-    
+       
     public function setFileName($fileName) 
     {
         $this->fileName = $fileName;        
@@ -59,16 +55,36 @@ class Calculator
         return $this->supportedOperations;
     }
     
-    public function operationSum($inputData) {
+    /*
+     * Process input, operation by operation
+     *
+     * @return int number of succesfully processed operations
+     * @throws      
+     */
+    public function processInput() 
+    {
+        while (($operation = $this->operationsFile->parseNextOperationFromInput()) !== false) {
+            $func = 'operation' . ucfirst(strtolower($operation->getName()));
+            $result = $this->$func($operation->getValues());
+            print $operation->getName() . ': ' . $result . "\n";
+         }
     }
 
-    public function operationMin($inputData) {
+    
+    public function operationSum($values) {
+        return array_sum($values);
+    }
+
+    public function operationMin($values) {
+        return min($values);
     }
     
-    public function operationMax($inputData) {
+    public function operationMax($values) {
+        return max($values);
     }
     
-    public function operationAverage($inputData) {
+    public function operationAverage($values) {
+        return array_sum($values)/count($values);
     }
 }
 ?>

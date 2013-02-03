@@ -42,21 +42,43 @@ abstract class OperationsInput
     {
         return $this->input;
     }
+
+    public function getOperationsCounter() 
+    {
+        return $this->operationsCounter;
+    }
     
     /*
-     * Process input, operation by operation
+     * Parse input, operation by operation
      *
-     * @return int number of succesfully processed operations
+     * @return array array of parsed operations
      * @throws      
      */
     public function parseInput() 
     {
-        while (($operation = $this->getNextOperationFromInput()) !== false) {
-            if ($this->parseOperation($operation)) {
+        $operations = array();
+        while (($operation = $this->parseNextOperationFromInput()) !== false) {
+            $operations[] = $operation;
+        }
+        return $operations;
+    
+    } 
+    
+    /*
+     * Parse and return next operation from input
+     *
+     * @return CalculatorOperation
+     * @throws      
+     */
+    public function parseNextOperationFromInput() 
+    {
+        if (($operation = $this->getNextOperationFromInput()) !== false) {
+            if (($op = $this->parseOperation($operation)) !== false) {
                 $this->operationsCounter++;
+                return $op;
             }
         }
-        return $this->operationsCounter;
+        return false;
     }
 
     public function parseOperation($operation) 
@@ -70,14 +92,13 @@ abstract class OperationsInput
                     explode(',', substr($operation, $operationNameEnd + 1))
                 ); 
                 return $op;
+            } else {
+                throw new InvalidArgumentException('Operation "' . $operationName . '" is not supported.');
             }
         }
         return false;
     }
     
-    public function validateOperation($operation) {
-       return !preg_match('/[^A-Z0-9,:\\s]/', $operation);
-    }
     
     abstract public function validateInput($input);
     

@@ -29,6 +29,13 @@ class CalculatorTest extends PHPUnit_Framework_TestCase
         $this->calculator = new Calculator('fixtures/inputEmpty.txt');
         $this->assertInstanceOf('Calculator', $this->calculator);
     }
+    
+    public function testTestCalculatorWithSimpleInput() {
+        $this->calculator = new Calculator('fixtures/inputSimple.txt');
+        $this->calculator->processInput();
+        
+        $this->assertInstanceOf('Calculator', $this->calculator);
+    }
 
 }
 

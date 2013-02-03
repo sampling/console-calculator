@@ -13,6 +13,14 @@ class CalculatorOperation
         $this->name = $name;
         $this->values = array_filter($values, 'CalculatorOperation::validateValues');
     }
+
+    public function getName() {
+        return $this->name;
+    }
+    
+    public function getValues() {
+        return $this->values;
+    }
     
     public static function validateValues($value) {
         if (!is_numeric($value)) {

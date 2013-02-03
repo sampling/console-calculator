@@ -35,7 +35,7 @@ class OperationsInputFileTest extends PHPUnit_Framework_TestCase
         $operationsProcessed = $this->operationsFile->parseInput();
         
         $this->assertInstanceOf('OperationsInputFile', $this->operationsFile);
-        $this->assertEquals(0, $operationsProcessed);
+        $this->assertEquals(0, count($operationsProcessed));
     }
     
     public function testProcessCorrectOperationsInputFile() {
@@ -43,7 +43,7 @@ class OperationsInputFileTest extends PHPUnit_Framework_TestCase
         $operationsProcessed = $this->operationsFile->parseInput();
         
         $this->assertInstanceOf('OperationsInputFile', $this->operationsFile);
-        $this->assertEquals(3, $operationsProcessed);
+        $this->assertEquals(3, count($operationsProcessed));
     }
     
     /**
