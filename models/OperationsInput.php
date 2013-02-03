@@ -49,25 +49,27 @@ abstract class OperationsInput
      * @return int number of succesfully processed operations
      * @throws      
      */
-    public function processInput() 
+    public function parseInput() 
     {
         while (($operation = $this->getNextOperationFromInput()) !== false) {
-            if ($this->processOperation($operation)) {
+            if ($this->parseOperation($operation)) {
                 $this->operationsCounter++;
             }
         }
         return $this->operationsCounter;
     }
 
-    public function processOperation($operation) 
+    public function parseOperation($operation) 
     {
         $operationNameEnd = strpos($operation, ':');
         if ($operationNameEnd !== false) {
             $operationName = substr($operation, 0, $operationNameEnd);
             if (in_array($operationName, $this->supportedOperations)) {
-                $operationData = array_filter(explode(',', substr($operation, $operationNameEnd + 1)), 'is_numeric');
-
-                return true;
+                $op = new CalculatorOperation(
+                    $operationName, 
+                    explode(',', substr($operation, $operationNameEnd + 1))
+                ); 
+                return $op;
             }
         }
         return false;

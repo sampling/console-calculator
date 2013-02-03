@@ -16,12 +16,17 @@ class Calculator
     private $operationsFile;
  
    // Operations supported by Calculator
-    private $supportedOperations = array('SUM', 'MIN', 'MAX', 'AVERAGE');
+    private $supportedOperations = array();
   
-    public function __construct($fileName = '') 
+    public function __construct($fileName = '', $operations = array('SUM', 'MIN', 'MAX', 'AVERAGE')) 
     {
         $this->setFileName($fileName);
-        $this->operationsFile = new OperationsFile($fileName);
+        $this->operationsFile = new OperationsInputFile($fileName);
+        $this->setSupportedOperations($operations);
+    }
+    
+    public function processInput() {    
+        $this->operationsFile->parseInput();
     }
     
     public function setFileName($fileName) 
@@ -37,8 +42,15 @@ class Calculator
     public function setSupportedOperations($operations) 
     {
         if (is_array($operations)) {
+            foreach ($operations as $operation) {
+                if (!method_exists($this, 'operation' . ucfirst(strtolower($operation)))) {
+                    throw new InvalidArgumentException(
+                        'Operation "' . $operation . '" is not supported.'
+                        );
+                }
+            }
             $this->supportedOperations = $operations;
-            $this->operationsFile->setSupportedOperations($operations);
+           // $this->operationsFile->setSupportedOperations($operations);
          }
     }        
 
@@ -46,6 +58,17 @@ class Calculator
     {
         return $this->supportedOperations;
     }
+    
+    public function operationSum($inputData) {
+    }
 
+    public function operationMin($inputData) {
+    }
+    
+    public function operationMax($inputData) {
+    }
+    
+    public function operationAverage($inputData) {
+    }
 }
 ?>

@@ -6,7 +6,7 @@
  *
  * 
  */
-class OperationsFile extends OperationsInput
+class OperationsInputFile extends OperationsInput
 {
     private $fileHandle;
 
