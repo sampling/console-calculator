@@ -26,3 +26,14 @@ Sample:
      SUM: 1, 2, 8
      MIN: 9, 10, -1
      AVERAGE: 13, 21, 8
+
+Known bugs and limitations
+==================
+
+Maximum possible number depends on OS limitations.
+
+Does not check input file encoding (but if encoding is wrong it will throw InvalidArgumentException)
+
+Result precision depends on php_ini settings
+
+For all-numeric values, float comparision errors possible
