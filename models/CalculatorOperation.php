@@ -11,7 +11,7 @@ class CalculatorOperation
     
     public function __construct($name, $values) {
         $this->name = $name;
-        $this->values = array_filter($values, 'CalculatorOperation::validateValues');
+        $this->values = CalculatorOperation::validateValues($values); // removed array_walk as it throws Warning with Exception
     }
 
     public function getName() {
@@ -22,10 +22,19 @@ class CalculatorOperation
         return $this->values;
     }
     
-    public static function validateValues($value) {
-        if (!is_numeric($value)) {
-            throw new InvalidArgumentException('Value not correct: ' . $value);
+    /**
+     * Validates values from array
+     * @return array values if all correct
+     * @throw InvalidArgumentException when value incorrect
+     */
+    public static function validateValues($values) {
+        foreach ($values as $value) {
+            if (Calculator::isIntOnly() && !preg_match('/^-?[0-9]+$/', trim($value))) {
+                throw new InvalidArgumentException('Value not correct: ' . $value . '. Integer expected!');
+            }elseif (!is_numeric($value)) {
+                throw new InvalidArgumentException('Value not correct: ' . $value . '. Number expected!');
+            }
         }
-        return true;
+        return $values;
     }
 }

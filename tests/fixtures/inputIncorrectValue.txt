@@ -1,0 +1,4 @@
+MIN: 14, 3, null, 0, -1
+MIN: false, 0, 1, -1
+SUM: 2+2, 13
+SUM: e, 13

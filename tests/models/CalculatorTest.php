@@ -9,23 +9,6 @@
 class CalculatorTest extends PHPUnit_Framework_TestCase
 {
     protected $calculator;
-
-    public function setupLongLinesFile($lines) {
-        $fw = fopen('fixtures/inputRandomLong.txt', 'w+');
-        $opts = array('SUM', 'MIN', 'MAX', 'AVERAGE');
-        
-        for ($j = 0; $j < $lines; $j++) {
-            $line = $opts[array_rand($opts)] . ': ' . rand(0, PHP_INT_MAX);
-            
-            $number_of_args = 2000;//rand(0, PHP_INT_MAX);
-            for ($i = 0; $i < $number_of_args; $i++) {
-               $line .= ', ' . rand(0, PHP_INT_MAX);
-            }
-            $line .= PHP_EOL;
-            fwrite($fw, $line);
-        }
-        fclose($fw);
-    }
     
     /**
      * @requires PHP 5
@@ -48,18 +31,27 @@ class CalculatorTest extends PHPUnit_Framework_TestCase
     }
     
     public function testTestCalculatorWithSimpleInput() {
-        $this->calculator = new Calculator('fixtures/inputSimple.txt');
+        $this->calculator = new Calculator('fixtures/inputSimple.txt');        
+        //$output = explode(PHP_EOL, ob_get_flush());
+        //$output = ob_get_flush();
+        $expectedOutput = 'SUM: 6' . PHP_EOL .
+                          'MIN: 2' . PHP_EOL .
+                          'AVERAGE: 2' . PHP_EOL;
+       
         $this->calculator->processInput();
-        
+              
         $this->assertInstanceOf('Calculator', $this->calculator);
+        $this->expectOutputString($expectedOutput);
+        //$this->assertEquals($expectedOutput, $output);
     }
-
-    public function testTestCalculator10LongLines() {
-        $this->setupLongLinesFile(1000);
-        $this->calculator = new Calculator('fixtures/inputRandomLong.txt');
-        $this->calculator->processInput();
+    
+    public function testTestCalculatorWithEdgeCasesInput() {
+        $this->calculator = new Calculator('fixtures/inputEdgeCases.txt');
+        $expectedOutput = 'SUM: 6' . PHP_EOL .
+                          'MIN: 2' . PHP_EOL .
+                          'AVERAGE: 2' . PHP_EOL;
         
-        $this->assertInstanceOf('Calculator', $this->calculator);
+        $this->calculator->processInput();        
+        $this->expectOutputString($expectedOutput);
     }
-
 }
