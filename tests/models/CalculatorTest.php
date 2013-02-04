@@ -32,8 +32,6 @@ class CalculatorTest extends PHPUnit_Framework_TestCase
     
     public function testTestCalculatorWithSimpleInput() {
         $this->calculator = new Calculator('fixtures/inputSimple.txt');        
-        //$output = explode(PHP_EOL, ob_get_flush());
-        //$output = ob_get_flush();
         $expectedOutput = 'SUM: 6' . PHP_EOL .
                           'MIN: 2' . PHP_EOL .
                           'AVERAGE: 2' . PHP_EOL;
@@ -42,14 +40,11 @@ class CalculatorTest extends PHPUnit_Framework_TestCase
               
         $this->assertInstanceOf('Calculator', $this->calculator);
         $this->expectOutputString($expectedOutput);
-        //$this->assertEquals($expectedOutput, $output);
     }
     
+    // @wip Add more edge cases and expected Output
     public function testTestCalculatorWithEdgeCasesInput() {
         $this->calculator = new Calculator('fixtures/inputEdgeCases.txt');
-        $expectedOutput = 'SUM: 6' . PHP_EOL .
-                          'MIN: 2' . PHP_EOL .
-                          'AVERAGE: 2' . PHP_EOL;
         
         $this->calculator->processInput();        
         $this->expectOutputString($expectedOutput);
